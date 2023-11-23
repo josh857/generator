@@ -1,0 +1,56 @@
+    @Autowired
+    private ${crudServicePrefix}${entityName}Service ${lowerCrudServicePrefix}${entityName}Service;
+
+    /**
+     * 分页查询
+     */<% if (existInterface) { println(); %>    @Override<% } %>
+    public IPage<${entityName}Response> page(${entityName}Request request, IPage<${entityName}> pageable) {
+        Wrapper<${entityName}> queryWrapper = Wrappers.lambdaQuery();
+        IPage<${entityName}> selectPage = ${lowerCrudServicePrefix}${entityName}Service.selectPage(queryWrapper, pageable);
+        // 组装response对象返回
+        IPage<${entityName}Response> respPage = selectPage.convert(it -> {
+            ${entityName}Response ${lowerEntityName}Response = new ${entityName}Response();
+            // 建议使用setter，字段类型问题能在编译期发现
+            BeanCopierUtil.copy(it, ${lowerEntityName}Response);
+            return ${lowerEntityName}Response;
+        });
+        return respPage;
+    }
+
+    /**
+     * 获取
+     */<% if (existInterface) { println(); %>    @Override<% } %>
+    public ${entityName}Response info(${entityIdType} id) {
+        ${entityName} ${lowerEntityName} = ${lowerCrudServicePrefix}${entityName}Service.selectById(id);
+        ${entityName}Response ${lowerEntityName}Response = new ${entityName}Response();
+        // 建议使用setter，字段类型问题能在编译期发现
+        BeanCopierUtil.copy(${lowerEntityName}, ${lowerEntityName}Response);
+        return ${lowerEntityName}Response;
+    }
+
+    /**
+     * 保存
+     */<% if (existInterface) { println(); %>    @Override<% } %>
+    public void create(${entityName}Request request) {
+        ${entityName} ${lowerEntityName} = new ${entityName}();
+        // 建议使用setter，字段类型问题能在编译期发现
+        BeanCopierUtil.copy(request, ${lowerEntityName});
+        ${lowerCrudServicePrefix}${entityName}Service.insert(${lowerEntityName});
+    }
+
+    /**
+     * 更新
+     */<% if (existInterface) { println(); %>    @Override<% } %>
+    public void modify(${entityName}Request request) {
+        ${entityName} ${lowerEntityName} = new ${entityName}();
+        // 建议使用setter，字段类型问题能在编译期发现
+        BeanCopierUtil.copy(request, ${lowerEntityName});
+        ${lowerCrudServicePrefix}${entityName}Service.updateById(${lowerEntityName});
+    }
+
+    /**
+     * 删除
+     */<% if (existInterface) { println(); %>    @Override<% } %>
+    public void remove(${entityIdType} id) {
+        ${lowerCrudServicePrefix}${entityName}Service.deleteById(id);
+    }

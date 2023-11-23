@@ -1,0 +1,58 @@
+package ${packagePath}.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.data.domain.Persistable;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ */
+<% if(useLombok) { %>
+@Data
+<% } %>
+<% if(inheritBaseEntity) { %>
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+<% } %>
+@Entity
+@IdClass(value = ${entityName}PoId.class)
+@Table(name = "${tableName}")
+<% if(uesAudit && (containsAuditUpdateDateTimeField || containsAuditCreateDateTimeField)) { %>
+@EntityListeners(AuditingEntityListener.class)
+<% } %>
+public class ${entityName}Po <% if(inheritBaseEntity) { %>extends BaseEntity <% } %> implements Persistable, Serializable {
+ private static final long serialVersionUID = 1L;
+<%
+for (field in fieldList) {
+%>
+    /**
+     * ${field.comment}
+     */
+    <% if ( field.primary == idName) { %>
+    @Id
+    <% } %>
+    <% if (useVersionLock && field.name == versionLockField) { %>
+    @Version
+    <% } %>
+    <% if (uesAudit && field.name == auditCreateDateTimeField) { %>
+    @CreatedDate
+    <% } %>
+    <% if (uesAudit && field.name == auditUpdateDateTimeField) { %>
+    @LastModifiedDate
+    <% } %>
+    @Column("${field.name}")
+    private ${field.type} ${field.javaName};
+<% } %>
+
+    @Override
+        public boolean isNew() {
+            return true;
+        }
+<% if (!useLombok) include("/template/common/pojoSetterGetter.btl"){} %>
+}

@@ -1,0 +1,26 @@
+package ${packagePath}.entity;
+
+import lombok.Data;
+import java.io.Serializable;
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ */
+<% if(useLombok) { %>
+@Data
+<% } %>
+public class ${entityName}PoId <% if(inheritBaseEntity) { %>extends BaseEntity <% } %>implements Serializable{
+private static final long serialVersionUID = 3L;
+<%
+for (field in fieldList) {
+%>
+
+    <% if ( field.primary == idName) { %>
+    private ${field.type} ${field.javaName};
+    <% } %>
+
+
+<% } %>
+<% if (!useLombok) include("/template/common/pojoSetterGetter.btl"){} %>
+}

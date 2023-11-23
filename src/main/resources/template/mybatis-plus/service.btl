@@ -1,0 +1,41 @@
+package ${packagePath}.service;
+
+import ${packagePath}.entity.${entityName};
+import ${packagePath}.model.vo.request.${entityName}Request;
+import ${packagePath}.model.vo.response.${entityName}Response;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+/**
+ * ${tableComment} Service Interface
+ * 业务定义
+ *
+ * @author FuFei
+ */
+public interface ${entityName}Service {
+
+    /**
+     * 分页查询
+     */
+    IPage<${entityName}Response> page(${entityName}Request request, IPage<${entityName}> pageable);
+
+    /**
+     * 获取
+     */
+    ${entityName}Response info(${entityIdType} id);
+
+    /**
+     * 创建
+     */
+    void create(${entityName}Request request);
+
+    /**
+     * 修改
+     */
+    void modify(${entityName}Request request);
+
+    /**
+     * 删除
+     */
+    void remove(${entityIdType} id);
+
+}

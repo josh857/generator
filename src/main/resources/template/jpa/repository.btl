@@ -1,0 +1,16 @@
+package ${packagePath}.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${tableComment} Repository
+ *
+ * @author ${author}
+ */
+
+@Repository
+public interface ${entityName}PoRepository extends JpaRepository<${entityName}Po, ${entityName}PoId> {
+}

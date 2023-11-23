@@ -1,0 +1,27 @@
+package ${packagePath}.service.impl;
+
+import ${packagePath}.entity.${entityName};
+import ${packagePath}.service.${entityName}Service;
+import ${packagePath}.service.crud.${crudServicePrefix}${entityName}Service;
+import ${packagePath}.model.vo.request.${entityName}Request;
+import ${packagePath}.model.vo.response.${entityName}Response;
+import ${utilPackagePath}.BeanCopierUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * ${tableComment} Service Impl
+ * 业务实现
+ *
+ * @author ${author}
+ */
+@Service
+public class ${entityName}ServiceImpl implements ${entityName}Service {
+
+<% include("/template/mybatis-plus/serviceCommon.btl", {existInterface:true}){} %>
+
+
+}

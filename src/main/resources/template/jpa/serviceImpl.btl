@@ -1,0 +1,24 @@
+package ${packagePath}.service.impl;
+
+import ${packagePath}.entity.${entityName};
+import ${packagePath}.service.${entityName}Service;
+
+import ${packagePath}.model.vo.request.${entityName}Request;
+import ${utilPackagePath}.BeanCopierUtil;
+import ${utilPackagePath}.SpecUtil;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+/**
+ * ${tableComment} Service Impl
+ * 业务实现
+ *
+ * @author ${author}
+ */
+@Service
+public class ${entityName}PoServiceImpl implements ${entityName}PoService {
+
+
+
+
+}

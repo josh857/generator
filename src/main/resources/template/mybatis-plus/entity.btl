@@ -1,0 +1,59 @@
+package ${packagePath}.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+
+<% if(useLombok) { %>
+import lombok.Data;
+<% } %>
+<% if(inheritBaseEntity) { %>
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import ${utilPackagePath}.BaseEntity;
+<% } %>
+<%
+for (importName in importList) {
+    if(isEmpty(importName)) continue;
+%>
+import ${importName};
+<% } %>
+
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ */
+<% if(useLombok) { %>
+@Data
+<% } %>
+<% if(inheritBaseEntity) { %>
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+<% } %>
+@TableName(value = "${tableName}")
+public class ${entityName} <% if(inheritBaseEntity) { %>extends BaseEntity <% } %>{
+
+<%
+for (field in fieldList) {
+%>
+    /**
+     * ${field.comment}
+     */
+    <% if (useVersionLock && field.name == versionLockField) { %>
+    @Version
+    <% } %>
+    <% if (field.name == idName) { %>
+    @TableId
+    <% } else { %>
+        <%  if (uesAudit && field.name == auditUpdateDateTimeField) { %>
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+        <%  } else if ( (useVersionLock && field.name == versionLockField) || (uesAudit && field.name == auditCreateDateTimeField)) { %>
+    @TableField(fill = FieldFill.INSERT)
+        <% } else { %>
+    @TableField
+        <% } %>
+    <% } %>
+    private ${field.type} ${field.javaName};
+
+<% } %>
+<% if (!useLombok) include("/template/common/pojoSetterGetter.btl"){} %>
+}

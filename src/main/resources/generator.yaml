@@ -1,0 +1,126 @@
+# ========================================
+# 基本所有配置都存在默认值
+# 请查看cn.fufeii.generator.config.GeneratorConfig
+# ========================================
+
+# ========================================
+# 数据源配置 参考GeneratorConfig.DataSource
+# ========================================
+# 【必填】！！！ 程序会去此库拉去数据表
+dataSource:
+  url: jdbc:sqlserver://localhost:1433;databaseName=fubon;encrypt=false
+  username: josh
+  password: 123
+
+
+# ========================================
+# 代码生成规则 参考GeneratorConfig.Rule
+# ========================================
+rule:
+
+  # ========================================
+  # 公共配置 参考GeneratorConfig.Rule.Common
+  # ========================================
+  common:
+    # 【必填】！！！ 参数请输入 [MYBATIS_PLUS] [JPA]，参考cn.fufeii.generator.config.Mode
+    mode: JPA
+    # 【必填】！！！ 文件保存路径，建议设置成项目路径
+    outputPath: C:\Users\josh2\generator\src\main\java
+    # 【必填】！！！ java文件中的package路径，参考项目路径
+    basePackagePath: cn.fufeii.learn.test.mp
+    # 【必填】！！！ import中，工具类的包路径（[BPP:]为一个标识符，代表了basePackagePath + '.'的值）
+    utilPackagePath: ${BPP}.util
+    # 【必填】！！！ import中，业务异常的包路径（抛出BizException）（[BPP:]为一个标识符，代表了basePackagePath + '.'的值）
+    exceptionPackagePath: ${BPP}.util
+    # 【可选】？？？ 作者名，建议填写，默认generator
+    author: josh
+
+  # ========================================
+  # 控制层配置 参考GeneratorConfig.Rule.Controller
+  # ========================================
+  controller:
+    # 【必填】！！！ 为true则生成controller层
+    enable: true
+    # 【可选】！！！将分页参数合并到请求参数中
+    mergePageParamToReq: true
+    # 【可选】！！！为true时Request类将继承基础分页类（BasePageRequest），需要Controller.mergePageParamToReq也为true
+    inheritBasePageRequest: true
+
+
+  # ========================================
+  # 实体配置 参考GeneratorConfig.Rule.Entity
+  # ========================================
+  # 【必填】！！！ 为true则生成entity层
+  entity:
+    # 【必填】！！！ 为true则生成controller层
+    enable: true
+
+    # 【可选】？？？ 表前缀，实体类名会移除指定的前缀，默认空串
+    tablePrefix: ''
+
+    # 【可选】？？？ 实体过滤选项，true-忽略（支持表级别、字段级别），false-包含（支持表级别）
+    filterFlag: true
+    # 【可选】？？？ 配合[filterFlag]使用
+    filterInclude:
+      - table_name
+      - table_name.column_name
+
+    # 【可选】？？？ 使用lombok，默认启用
+    useLombok: true
+    # 【可选】？？？ 生成的DTO是否使用swagger的注解
+    dtoUseSwagger: false
+    # 【可选】？？？ 生成的DTO是否加上注释，建议使用Swagger则不加注释
+    dtoUseComment: false
+    # 【可选】？？？ 实体字段datetime映射为LocalDateTime，false时使用Date，默认false
+    datetimeToLdt: false
+
+    # 【可选】？？？ 主键id名（table_id取数据库命名），作为为在实体id列上加上id注解标识，默认id
+    idName: YES
+
+    # 【可选】？？？ 实体字段tinyint(1)映射为Boolean，默认false
+    tinyint1ToBool: true
+    # 【可选】？？？ 实体使用乐观锁
+    uesVersionLock: false
+    # 【可选】？？？ 当uesVersionLock为true时生效，指定数据库中乐观锁的字段名
+    versionLockField: version
+
+    # 【可选】？？？ 实体使用审计
+    uesAudit: false
+    # 【可选】？？？ 当uesAudit为true时生效，指定数据库中创建日期时间的字段名
+    auditCreateDateTimeField: create_date_time
+    # 【可选】？？？ 当uesAudit为true时生效，指定数据库中修改日期时间的字段名
+    auditUpdateDateTimeField: update_date_time
+
+    # 【可选】！！！为true时所有实体类将继承基础实体类
+    # 注意：基础父类的字段无法配置，详见项目中[asserts]目录下的BaseEntity类
+    inheritBaseEntity: false
+    # 【可选】！！！填写BaseEntity中的字段，这些字段将会在Entity中忽略
+    baseEntityFieldList:
+      - id
+      - version
+      - create_date_time
+      - update_date_time
+
+
+  # ========================================
+  # 服务层配置 参考GeneratorConfig.Rule.Service
+  # ========================================
+  service:
+    # 【必填】！！！ 为true则生成service层
+    enable: true
+    # 【必填】？？？ 生成CRUD实体类的前缀，默认生成CrudXxxService
+    crudServicePrefix: Crud
+    # 【可选】？？？ 使用服务接口层，即会生成XxxService接口和XxxServiceImpl类，关闭则直接生成XxxService类，默认true
+    useInterface: true
+
+
+  # ========================================
+  # 映射层配置 参考GeneratorConfig.Rule.Orm
+  # ========================================
+  orm:
+    # 【必填】！！！ 为true则生成orm层
+    enable: true
+    # 【可选】？？？ 在接口层加上@Mapper注解（和@MapperScan注解效果一致，使用@Mapper注解后IDEA才不会提示'Could not autowire'），默认开启
+    useMapperAnnotation: true
+    # 【可选】？？？ 在mybatis-plus环境下生效，true生成XML文件
+    useXmlMapper: true

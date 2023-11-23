@@ -1,0 +1,76 @@
+package ${packagePath}.model.vo.request;
+
+<%
+for (importName in importList) {
+    if(isEmpty(importName)) continue;
+%>
+import ${importName};
+<% } %>
+<% if(dtoUseSwagger) { %>
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+<% } %>
+<% if(mergePageParamToReq && inheritBasePageRequest) { %>
+import ${utilPackagePath}.BasePageRequest;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+<% } %>
+<% if(useLombok) { %>
+import lombok.Data;
+<% } %>
+
+/**
+ * ${tableComment} Request
+ *
+ * @author ${author}
+ */
+<% if(useLombok) { %>
+@Data
+<% } %>
+<% if(mergePageParamToReq && inheritBasePageRequest) { %>
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+<% } %>
+<% if(dtoUseSwagger) { %>
+@ApiModel
+<% } %>
+public class ${entityName}Request <% if(mergePageParamToReq && inheritBasePageRequest) { %>extends BasePageRequest <% } %>{
+<% if(mergePageParamToReq) { %>
+<% if(!inheritBasePageRequest) { %>
+
+    <% if(dtoUseComment) { %>
+    /**
+    * 页码
+    */
+    <% } %>
+    <% if(dtoUseSwagger) { %>
+    @ApiModelProperty(value = "页码", required = true)
+    <% } %>
+    private Integer page;
+
+    <% if(dtoUseComment) { %>
+    /**
+     * 页数
+     */
+    <% } %>
+    <% if(dtoUseSwagger) { %>
+    @ApiModelProperty(value = "页数", required = true)
+    <% } %>
+    private Integer size;
+    <% } %>
+<% } %>
+
+<% for (field in fieldList) { %>
+    <% if(dtoUseComment) { %>
+    /**
+     * ${field.comment}
+     */
+    <% } %>
+    <% if(dtoUseSwagger) { %>
+    @ApiModelProperty(value = "${field.comment}")
+    <% } %>
+    private ${field.type} ${field.javaName};
+
+<% } %>
+<% if (!useLombok) include("/template/common/pojoSetterGetter.btl"){} %>
+}

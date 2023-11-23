@@ -1,0 +1,78 @@
+package ${packagePath}.controller;
+
+import ${utilPackagePath}.CommonResult;
+import ${utilPackagePath}.PageResult;
+import ${packagePath}.entity.${entityName};
+import ${packagePath}.service.${entityName}Service;
+import ${packagePath}.model.vo.request.${entityName}Request;
+import ${packagePath}.model.vo.response.${entityName}Response;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * ${tableComment} Controller
+ *
+ * @author ${author}
+ */
+@Api
+@RestController
+@RequestMapping("/${requestMappingPrefix}")
+public class ${entityName}Controller {
+
+    @Autowired
+    private ${entityName}Service ${lowerEntityName}Service;
+
+    /**
+     * 分页查询
+     */
+    @PostMapping("/page")
+<% if(mergePageParamToReq) { %>
+    public PageResult<${entityName}Response> page(${entityName}Request request) {
+        IPage<${entityName}Response> pageResult = ${lowerEntityName}Service.page(request, new Page<${entityName}>(request.getPage(), request.getSize()).addOrder(OrderItem.desc("${entityIdName}")));
+<% } else { %>
+    public PageResult<${entityName}Response> page(${entityName}Request request, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+        IPage<${entityName}Response> pageResult = ${lowerEntityName}Service.page(request, new Page<${entityName}>(page, size).addOrder(OrderItem.desc("${entityIdName}")));
+<% }  %>
+        return PageResult.success(pageResult.getTotal(), pageResult.getRecords());
+    }
+
+    /**
+    * 查询详情
+    */
+    @GetMapping("/info/{id}")
+    public CommonResult<${entityName}Response> info(@PathVariable ${entityIdType} id) {
+       return CommonResult.success(${lowerEntityName}Service.info(id));
+    }
+
+    /**
+    * 创建
+    */
+    @PostMapping("/create")
+    public CommonResult<Void> create(@RequestBody ${entityName}Request request) {
+       ${lowerEntityName}Service.create(request);
+       return CommonResult.success();
+    }
+
+    /**
+    * 修改
+    */
+    @PutMapping("/modify")
+    public CommonResult<Void> modify(@RequestBody ${entityName}Request request) {
+       ${lowerEntityName}Service.modify(request);
+       return CommonResult.success();
+    }
+
+    /**
+    * 删除
+    */
+    @DeleteMapping("/remove/{id}")
+    public CommonResult<Void> remove(@PathVariable ${entityIdType} id) {
+       ${lowerEntityName}Service.remove(id);
+       return CommonResult.success();
+    }
+
+}

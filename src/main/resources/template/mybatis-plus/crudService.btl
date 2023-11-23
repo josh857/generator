@@ -1,0 +1,114 @@
+package ${packagePath}.service.crud;
+
+import ${packagePath}.dao.${entityName}Dao;
+import ${packagePath}.entity.${entityName};
+import ${exceptionPackagePath}.BizException;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * ${tableComment}
+ * CRUD ${entityName} Service
+ *
+ * @author ${author}
+ */
+@Service
+public class ${crudServicePrefix}${entityName}Service {
+
+    @Autowired
+    private ${entityName}Dao ${lowerEntityName}Dao;
+
+    /**
+     * 列表查询
+     */
+    public List<${entityName}> selectList(Wrapper<${entityName}> queryWrapper) {
+        return ${lowerEntityName}Dao.selectList(queryWrapper);
+    }
+
+    /**
+     * 分页查询
+     */
+    public IPage<${entityName}> selectPage(Wrapper<${entityName}> queryWrapper, IPage<${entityName}> pageable) {
+        return ${lowerEntityName}Dao.selectPage(pageable, queryWrapper);
+    }
+
+    /**
+     * 通过ID获取一个可能存在的实体
+     */
+    public Optional<${entityName}> selectByIdOptional(${entityIdType} id) {
+        return Optional.ofNullable(${lowerEntityName}Dao.selectById(id));
+    }
+
+    /**
+     * 通过ID获取一个存在的实体
+     */
+    public ${entityName} selectById(${entityIdType} id) {
+        return this.selectByIdOptional(id).orElseThrow(() -> new BizException());
+    }
+
+    /**
+     * 通过条件获取一个可能存在的实体
+     */
+    public Optional<${entityName}> selectOneOptional(Wrapper<${entityName}> queryWrapper) {
+        return Optional.ofNullable(${lowerEntityName}Dao.selectOne(queryWrapper));
+    }
+
+    /**
+     * 通过条件获取一个存在的实体
+     */
+    public ${entityName} selectOne(Wrapper<${entityName}> queryWrapper) {
+        return this.selectOneOptional(queryWrapper).orElseThrow(() -> new BizException());
+    }
+
+    /**
+     * 统计个数
+     */
+    public long count(Wrapper<${entityName}> queryWrapper) {
+        return ${lowerEntityName}Dao.selectCount(queryWrapper);
+    }
+
+    /**
+     * 是否存在
+     */
+    public boolean exist(Wrapper<${entityName}> queryWrapper) {
+        return ${lowerEntityName}Dao.selectCount(queryWrapper) > 0;
+    }
+
+    /**
+     * 插入实体
+     */
+    public ${entityName} insert(${entityName} entity) {
+        ${lowerEntityName}Dao.insert(entity);
+        return entity;
+    }
+
+    /**
+     * 更新实体
+     */
+    public ${entityName} updateById(${entityName} entity) {
+        int row = ${lowerEntityName}Dao.updateById(entity);
+        if (row == 0) {
+            throw new BizException();
+        }
+        return entity;
+    }
+
+    /**
+     * 删除实体
+     */
+    public void deleteById(${entityIdType} id) {
+        ${lowerEntityName}Dao.deleteById(id);
+    }
+
+
+    // --------------------------------------------------------------------------------- //
+    // ---------------------------- 下面基础CRUD的扩展 ----------------------------------- //
+    // --------------------------------------------------------------------------------- //
+
+
+}

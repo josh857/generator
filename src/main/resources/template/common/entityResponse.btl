@@ -1,0 +1,43 @@
+package ${packagePath}.model.vo.response;
+
+<%
+for (importName in importList) {
+    if(isEmpty(importName)) continue;
+%>
+import ${importName};
+<% } %>
+<% if(dtoUseSwagger) { %>
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+<% } %>
+<% if(useLombok) { %>
+import lombok.Data;
+<% } %>
+
+/**
+ * ${tableComment} Response
+ *
+ * @author ${author}
+ */
+<% if(useLombok) { %>
+@Data
+<% } %>
+<% if(dtoUseSwagger) { %>
+@ApiModel
+<% } %>
+public class ${entityName}Response {
+
+<% for (field in fieldList) { %>
+    <% if(dtoUseComment) { %>
+    /**
+     * ${field.comment}
+     */
+    <% } %>
+    <% if(dtoUseSwagger) { %>
+    @ApiModelProperty(value = "${field.comment}")
+    <% } %>
+    private ${field.type} ${field.javaName};
+
+<% } %>
+<% if (!useLombok) include("/template/common/pojoSetterGetter.btl"){} %>
+}

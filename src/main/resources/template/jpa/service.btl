@@ -1,0 +1,14 @@
+package ${packagePath}.service;
+
+
+/**
+ * ${tableComment} Service Interface
+ * 业务定义
+ *
+ * @author ${author}
+ */
+public interface ${entityName}PoService {
+
+
+
+}
